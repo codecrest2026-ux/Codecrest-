@@ -7,6 +7,16 @@ import {
   Instagram, MessageCircle, Mail, ExternalLink, CheckCircle, AlertCircle,
 } from "lucide-react";
 
+// ─── Image Imports ────────────────────────────────────────────────────────────
+import sebastianImg from './assets/sebastian.jpg';
+import jamesImg from './assets/james.jpg';
+import ifeanyiImg from './assets/ifeanyi.jpg';
+import nnabuikeImg from './assets/nnabuike.jpg';
+import michaelImg from './assets/michael.jpg';
+import techflowImg from './assets/techflow.jpg';
+import nexusImg from './assets/nexus.png';
+import novaImg from './assets/nova.jpg';
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const NAV_LINKS = ["Home", "Services", "Portfolio", "About", "Team", "Contact"];
@@ -32,10 +42,10 @@ const SERVICES = [
   },
 ];
 
-const PORTFOLIO_ITEMS: Record<string, { title: string; tag: string; gradient: string }[]> = {
+const PORTFOLIO_ITEMS: Record<string, { title: string; tag: string; gradient: string; image?: string }[]> = {
   "Web Development": [
-    { title: "TechFlow SaaS Platform", tag: "Web Development", gradient: "from-cyan-500 via-sky-500 to-blue-600" },
-    { title: "Nexus E-Commerce Hub", tag: "Web Development", gradient: "from-violet-500 via-purple-500 to-indigo-600" },
+    { title: "TechFlow SaaS Platform", tag: "Web Development", gradient: "from-cyan-500 via-sky-500 to-blue-600", image: techflowImg },
+    { title: "Nexus E-Commerce Hub", tag: "Web Development", gradient: "from-violet-500 via-purple-500 to-indigo-600", image: nexusImg },
   ],
   "UI/UX Design": [
     { title: "FinTrack Dashboard", tag: "UI/UX Design", gradient: "from-emerald-400 via-teal-500 to-cyan-600" },
@@ -43,7 +53,7 @@ const PORTFOLIO_ITEMS: Record<string, { title: string; tag: string; gradient: st
   ],
   "Graphics Design": [
     { title: "Aura Brand System", tag: "Graphics Design", gradient: "from-amber-400 via-orange-500 to-red-500" },
-    { title: "Nova Social Kit", tag: "Graphics Design", gradient: "from-lime-400 via-green-500 to-emerald-600" },
+    { title: "Nova Social Kit", tag: "Graphics Design", gradient: "from-lime-400 via-green-500 to-emerald-600", image: novaImg },
   ],
 };
 
@@ -55,40 +65,40 @@ const MISSION_CARDS = [
 ];
 
 const TEAM = [
-  { 
-    name: "Okoye Sebastian Chidubem", 
-    role: "Web Developer & Project Manager", 
+  {
+    name: "Okoye Sebastian Chidubem",
+    role: "Web Developer & Project Manager",
     initials: "SO",
-    image: "/src/assets/sebastian.jpg", 
-    gradient: "from-[#00FFB2] to-emerald-500" 
+    image: sebastianImg,
+    gradient: "from-[#00FFB2] to-emerald-500"
   },
-  { 
-    name: "Ejike James", 
-    role: "Asst. Web Developer", 
-    initials: "EJ", 
-    image: "/src/assets/james.jpg", 
-    gradient: "from-violet-400 to-purple-600" 
+  {
+    name: "Ejike James",
+    role: "Asst. Web Developer",
+    initials: "EJ",
+    image: jamesImg,
+    gradient: "from-violet-400 to-purple-600"
   },
-  { 
-    name: "Iruefo Ifeanyichukwu Felix", 
-    role: "Lead Designer", 
-    initials: "IF", 
-    image: "/src/assets/ifeanyi.jpg", 
-    gradient: "from-cyan-400 to-blue-500" 
+  {
+    name: "Iruefo Ifeanyichukwu Felix",
+    role: "Lead Designer",
+    initials: "IF",
+    image: ifeanyiImg,
+    gradient: "from-cyan-400 to-blue-500"
   },
-  { 
-    name: "Nnabuike Emmanuel Onyemelukwe", 
-    role: "Sales Manager", 
-    initials: "NE", 
-    image: "/src/assets/nnabuike.jpg", 
-    gradient: "from-rose-400 to-pink-600" 
+  {
+    name: "Nnabuike Emmanuel Onyemelukwe",
+    role: "Sales Manager",
+    initials: "NE",
+    image: nnabuikeImg,
+    gradient: "from-rose-400 to-pink-600"
   },
-  { 
-    name: "Mbaomah Michael", 
-    role: "Social Manager", 
-    initials: "MM", 
-    image: "/src/assets/michael.jpg", // Make sure to add his picture to your assets later if you have one!
-    gradient: "from-amber-400 to-orange-600" 
+  {
+    name: "Mbaomah Michael",
+    role: "Social Manager",
+    initials: "MM",
+    image: michaelImg,
+    gradient: "from-amber-400 to-orange-600"
   },
 ];
 
@@ -142,14 +152,12 @@ export default function App() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  // Navbar scroll effect
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active section tracker
   useEffect(() => {
     const ids = NAV_LINKS.map((l) => l.toLowerCase());
     const observer = new IntersectionObserver(
@@ -186,16 +194,15 @@ export default function App() {
     return Object.keys(errors).length === 0;
   };
 
- const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setFormState("loading");
-    
+
     try {
       const botToken = "8969762709:AAFKX3_iWk2B0hvfHqsGFrXAMhjJw6E4m4E";
       const chatId = "-1003921976011";
 
-      // Using HTML parse mode instead of Markdown to prevent character crashes (like underscores in emails)
       const telegramMessage = `
 <b>🚀 New Lead Received!</b>\n
 <b>👤 Name:</b> ${formData.name || "N/A"}\n
@@ -220,31 +227,28 @@ export default function App() {
         throw new Error("Failed to send message");
       }
 
-      // === EMAILJS INTEGRATION MATCHING YOUR AUTOMATED TEXT ===
-      // Creating a clean summary to feed into your {{user_message}} template slot
       const compiledMessage = `
 Requested Service: ${formData.service || "Digital Consultation"}
 WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
 `;
 
       const templateParams = {
-        user_name: formData.name,       // Maps directly to your {{user_name}}
-        user_message: compiledMessage,  // Maps directly to your {{user_message}}
-        user_email: formData.email,      // Tells EmailJS where to send the email
+        user_name: formData.name,
+        user_message: compiledMessage,
+        user_email: formData.email,
       };
 
       try {
         await emailjs.send(
-          'service_qdrgpve',    // Your Service ID
-          'template_fyemo5d',   // Your Template ID
+          'service_qdrgpve',
+          'template_fyemo5d',
           templateParams,
-          'A46AEOFVJ-lNZ-ee5'   // Your Public Key
+          'A46AEOFVJ-lNZ-ee5'
         );
         console.log("EmailJS client confirmation email sent!");
       } catch (emailErr) {
         console.error("EmailJS Failed to send:", emailErr);
       }
-      // =======================================================
 
       setFormState("success");
       setFormData({ name: "", whatsapp: "", email: "", service: "" });
@@ -253,6 +257,7 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
       setFormState("error");
     }
   };
+
   const inputClass = (field: string) =>
     `w-full px-4 py-3.5 rounded-xl border text-sm bg-[#F5F7FA] text-[#0F172A] placeholder-[#0F172A]/30 outline-none transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(0,255,178,0.15)] ${
       formErrors[field] ? "border-red-400 focus:border-red-400" : "border-black/10 focus:border-[#00FFB2]"
@@ -315,7 +320,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
           </button>
         </nav>
 
-        {/* Mobile dropdown */}
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -8 }}
@@ -348,7 +352,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
         id="home"
         className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
       >
-        {/* Background layers */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#F5F7FA]/60 via-white to-white" />
         <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{
@@ -357,12 +360,9 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
             backgroundSize: "64px 64px",
           }}
         />
-
-        {/* Ambient glow orbs */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#00FFB2]/8 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#00FFB2]/5 blur-[100px] pointer-events-none" />
 
-        {/* Floating micro-dots */}
         {[...Array(14)].map((_, i) => (
           <motion.div
             key={i}
@@ -383,9 +383,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
         ))}
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          {/* Floating logo mark */}
-          
-
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -426,7 +423,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -460,8 +456,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
                     </div>
                     <h3 className="text-lg font-semibold text-[#0F172A] mb-3 leading-snug">{svc.title}</h3>
                     <p className="text-[#0F172A]/55 text-sm leading-relaxed mb-7">{svc.description}</p>
-                   
-                    
                   </div>
                 </div>
               </FadeIn>
@@ -478,7 +472,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
             <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A]">Selected Projects</h2>
           </FadeIn>
 
-          {/* Filter */}
           <FadeIn className="flex justify-center mb-12">
             <div className="relative">
               <button
@@ -531,10 +524,17 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
                 className="group relative overflow-hidden rounded-2xl"
                 style={{ aspectRatio: "16/9" }}
               >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${proj.gradient} transition-transform duration-700 group-hover:scale-105`}
-                />
-                {/* Glassmorphism overlay */}
+                {proj.image ? (
+                  <img
+                    src={proj.image}
+                    alt={proj.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${proj.gradient} transition-transform duration-700 group-hover:scale-105`}
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute inset-0 flex items-end justify-between p-7">
                   <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
@@ -591,58 +591,56 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
         </div>
       </section>
 
-     {/* ── TEAM ───────────────────────────────────────────────────── */}
-<section id="team" className="py-28 bg-[#F5F7FA]">
-  <div className="max-w-6xl mx-auto px-6">
-    <FadeIn className="text-center mb-16">
-      <SectionLabel text="The People" />
-      <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A]">Meet The Team</h2>
-    </FadeIn>
+      {/* ── TEAM ───────────────────────────────────────────────────── */}
+      <section id="team" className="py-28 bg-[#F5F7FA]">
+        <div className="max-w-6xl mx-auto px-6">
+          <FadeIn className="text-center mb-16">
+            <SectionLabel text="The People" />
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A]">Meet The Team</h2>
+          </FadeIn>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
-      {TEAM.map((member, i) => (
-        <FadeIn key={member.name} delay={i * 0.1}>
-          <div className="h-full flex flex-col group text-center p-7 rounded-2xl bg-white border border-black/5 hover:border-[#00FFB2]/25 hover:shadow-[0_24px_64px_rgba(0,255,178,0.08)] hover:-translate-y-2 transition-all duration-500">
-            <div className="relative inline-block mb-5">
-              <div
-                className={`w-[72px] h-[72px] rounded-full bg-gradient-to-br ${member.gradient} flex items-center justify-center mx-auto shadow-lg group-hover:shadow-[0_0_32px_rgba(0,255,178,0.35)] transition-shadow duration-500 overflow-hidden`}
-              >
-                {/* Condition: If image exists, show it. Otherwise, show initials */}
-                {member.image ? (
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // Fallback just in case an image fails to load or path is wrong
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <span className="text-white font-bold text-base">{member.initials}</span>
-                )}
-              </div>
-              <div className="absolute inset-0 rounded-full bg-[#00FFB2]/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            </div>
-            <h3 className="font-semibold text-[#0F172A] text-sm mb-1">{member.name}</h3>
-            <p className="text-[#0F172A]/45 text-xs mb-4">{member.role}</p>
-            <div className="flex justify-center gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              {[Twitter, Linkedin].map((Icon, j) => (
-                <a
-                  key={j}
-                  href="#"
-                  className="w-7 h-7 rounded-full bg-[#00FFB2]/10 flex items-center justify-center hover:bg-[#00FFB2]/25 transition-colors"
-                >
-                  <Icon size={11} className="text-[#00FFB2]" />
-                </a>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
+            {TEAM.map((member, i) => (
+              <FadeIn key={member.name} delay={i * 0.1}>
+                <div className="h-full flex flex-col group text-center p-7 rounded-2xl bg-white border border-black/5 hover:border-[#00FFB2]/25 hover:shadow-[0_24px_64px_rgba(0,255,178,0.08)] hover:-translate-y-2 transition-all duration-500">
+                  <div className="relative inline-block mb-5">
+                    <div
+                      className={`w-[72px] h-[72px] rounded-full bg-gradient-to-br ${member.gradient} flex items-center justify-center mx-auto shadow-lg group-hover:shadow-[0_0_32px_rgba(0,255,178,0.35)] transition-shadow duration-500 overflow-hidden`}
+                    >
+                      {member.image ? (
+                        <img
+                          src={member.image}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <span className="text-white font-bold text-base">{member.initials}</span>
+                      )}
+                    </div>
+                    <div className="absolute inset-0 rounded-full bg-[#00FFB2]/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  </div>
+                  <h3 className="font-semibold text-[#0F172A] text-sm mb-1">{member.name}</h3>
+                  <p className="text-[#0F172A]/45 text-xs mb-4">{member.role}</p>
+                  <div className="flex justify-center gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {[Twitter, Linkedin].map((Icon, j) => (
+                      <a
+                        key={j}
+                        href="#"
+                        className="w-7 h-7 rounded-full bg-[#00FFB2]/10 flex items-center justify-center hover:bg-[#00FFB2]/25 transition-colors"
+                      >
+                        <Icon size={11} className="text-[#00FFB2]" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
           </div>
-        </FadeIn>
-      ))}
-    </div>
-  </div>
-</section>
+        </div>
+      </section>
 
       {/* ── CONTACT / BOOKING ──────────────────────────────────────── */}
       <section id="contact" className="py-28 bg-white relative overflow-hidden">
@@ -679,7 +677,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
           ) : (
             <FadeIn>
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                {/* Full Name */}
                 <div>
                   <label className="block text-sm font-medium text-[#0F172A] mb-2">Full Name</label>
                   <input
@@ -696,7 +693,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
                   )}
                 </div>
 
-                {/* WhatsApp */}
                 <div>
                   <label className="block text-sm font-medium text-[#0F172A] mb-2">WhatsApp Number</label>
                   <input
@@ -713,14 +709,13 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
                   )}
                 </div>
 
-                {/* Email */}
                 <div>
-                  <label className="block text-sm font-medium text-[#0F172A] mb-2">Gmail Address</label>
+                  <label className="block text-sm font-medium text-[#0F172A] mb-2">Email Address</label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
-                    placeholder="you@gmail.com"
+                    placeholder="you@email.com"
                     className={inputClass("email")}
                   />
                   {formErrors.email && (
@@ -730,7 +725,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
                   )}
                 </div>
 
-                {/* Service dropdown */}
                 <div>
                   <label className="block text-sm font-medium text-[#0F172A] mb-2">Service</label>
                   <div className="relative">
@@ -810,7 +804,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full bg-[#00FFB2]/5 blur-[80px] pointer-events-none" />
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 pb-12 border-b border-white/8">
-            {/* Brand */}
             <div>
               <div className="text-2xl font-extrabold text-white mb-3 tracking-tight">
                 Code<span className="text-[#00FFB2]">Crest</span>
@@ -827,7 +820,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
               </a>
             </div>
 
-            {/* Nav */}
             <div>
               <h4 className="text-white font-semibold text-sm tracking-wide mb-5">Quick Links</h4>
               <ul className="space-y-2.5">
@@ -844,7 +836,6 @@ WhatsApp Contact: ${formData.whatsapp || "Not Provided"}
               </ul>
             </div>
 
-            {/* Contact */}
             <div>
               <h4 className="text-white font-semibold text-sm tracking-wide mb-5">Contact</h4>
               <ul className="space-y-3">
