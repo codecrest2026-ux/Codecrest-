@@ -8,14 +8,14 @@ import {
 } from "lucide-react";
 
 // ─── Image Imports ────────────────────────────────────────────────────────────
-import sebastianImg from './assets/sebastian.jpg';
-import jamesImg from './assets/james.jpg';
-import ifeanyiImg from './assets/ifeanyi.jpg';
-import nnabuikeImg from './assets/nnabuike.jpg';
-import michaelImg from './assets/michael.jpg';
-import techflowImg from './assets/techflow.jpg';
-import nexusImg from './assets/nexus.png';
-import novaImg from './assets/nova.jpg';
+import sebastianImg from '../assets/sebastian.jpg';
+import jamesImg from '../assets/james.jpg';
+import ifeanyiImg from '../assets/ifeanyi.jpg';
+import nnabuikeImg from '../assets/nnabuike.jpg';
+import michaelImg from '../assets/michael.jpg';
+import techflowImg from '../assets/techflow.jpg';
+import nexusImg from '../assets/nexus.png';
+import novaImg from '../assets/nova.jpg';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
